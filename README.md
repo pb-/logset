@@ -1,34 +1,10 @@
-# logsetd
+# logset
 
-logsetd implements a daemon for the logset protocol.
+logset is used to synchronize two [logsetd](https://github.com/pb-/logsetd) instances using the [logset protocol](https://github.com/pb-/logsetd#logset-protocol).
 
+Usage
 
-## logset Protocol
-
-logset is a protocol to synchronize a set of append-only commit logs. Logs contain arbitrary byte streams. This section describes logset-over-http(s).
-
-Endpoint            | Request body message | Response body message
---------------------|----------------------|----------------------
-GET /:repo/offsets  |                      | offsets
-POST /:repo/pull    | offsets              | pull-response
-POST /:repo/push    | push                 |
-
-
-### Message grammar
-
-The protocol mixes binary and text; text should be decoded as ASCII.
-
+```shell
+pipenv install  # one-time setup
+pipenv run logset http://localhost:4004/repo1 http://localhost:4004/repo2
 ```
-offsets := (name ' ' integer '\n')* '\n'
-pull-response := offsets slice*
-push := slice*
-slice := slice-info slice-body
-slice-info := name ' ' integer ' ' integer '\n'
-slice-body := byte+
-name := [0-9a-zA-Z]+
-integer := [0-9]*
-byte is an arbitrary byte
-```
-
-
-### Synchronization process

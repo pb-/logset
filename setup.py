@@ -4,12 +4,11 @@ setup(
     name='logset',
     packages=find_packages(),
     install_requires=[
-        'flask',
         'requests',
     ],
     entry_points={
         'console_scripts': [
-            'logset-sync = logset.sync:run',
+            'logset = logset.sync:run',
         ],
     },
 )
